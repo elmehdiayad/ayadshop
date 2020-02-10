@@ -5,11 +5,22 @@ import {changeCartState} from '../../redux/cart-reducer/cart.actions';
 import './cart-icon.styles.scss';
 
 
-const CartIcon = ({changeCartState}) => {
+const CartIcon = ({changeCartState, cartItems}) => {
+  
+  const calculate = () => {
+    var count = 0;
+    for(let item of cartItems){
+      count += item.quantity;
+    }
+    return count;
+  }
   return (
     <div className='cart-icon' onClick={changeCartState}>
       <ShoppingIcon className='shopping-icon'/>
-      <span className='item-count'>0</span> 
+      <span className='item-count'>
+        { calculate() }
+      </span> 
+      
     </div>
   );
 }
@@ -17,4 +28,8 @@ const CartIcon = ({changeCartState}) => {
 const mapDispatchToProps = dispatsh => ({
   changeCartState : () => dispatsh(changeCartState())
 });
-export default connect(null ,mapDispatchToProps)(CartIcon);
+
+const mapStateToProps = ({cart:{cartItems}}) => (
+  {cartItems}
+)
+export default connect(mapStateToProps ,mapDispatchToProps)(CartIcon);
