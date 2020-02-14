@@ -25,5 +25,5 @@ export const selectIsFetchingCollection = createSelector(
 
 export const selectIsCollectionsLoaded = createSelector(
   [shopPage],
-  shop => !!shop.collections
+  shop => !(!!shop.collections)
 )
