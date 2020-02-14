@@ -6,7 +6,6 @@ import ShopPage from './pages/shop/shop-page.component'
 import HomePage from './pages/homepage/homepage.component';
 import Header from './component/header/header.component';
 import Sign from './pages/sing/sign.component';
-import {auth, createUserProfileDocument, addCollectionAndDocuments} from './firebase/firebase.utils';
 import {connect} from 'react-redux'
 import {setCurrentUser} from './redux/user-reducer/user.actions'
 import { selectCurrentUser } from './redux/user-reducer/user.selectors';
@@ -21,20 +20,19 @@ class App extends React.Component {
   unSubsucribeFromAuth = null;
 
   componentDidMount(){
-    const {setCurrentUser, collectionsArray} = this.props;
-    this.unSubsucribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if(userAuth){
-        const userRef = await createUserProfileDocument(userAuth);
-        userRef.onSnapshot(snapShot => {
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data()
-          })
-        });    
-      }
-      setCurrentUser(userAuth);
-      addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({title, items})));
-    });
+    // this.unSubsucribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    //   if(userAuth){
+    //     const userRef = await createUserProfileDocument(userAuth);
+    //     userRef.onSnapshot(snapShot => {
+    //       setCurrentUser({
+    //         id: snapShot.id,
+    //         ...snapShot.data()
+    //       })
+    //     });    
+    //   }
+    //   setCurrentUser(userAuth);
+    //   addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({title, items})));
+    // });
   }
 
   componentWillUnmount(){

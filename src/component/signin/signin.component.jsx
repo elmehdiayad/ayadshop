@@ -3,7 +3,9 @@ import React from 'react'
 import FormInput from '../form-input/form-input.component'
 import './signin.styles.scss'
 import CustomButton from '../custom-button/custom-button.component';
-import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
+import { auth } from '../../firebase/firebase.utils';
+import { googleSignInStart } from '../../redux/user-reducer/user.actions';
+import { connect } from 'react-redux';
 
 class SignIn extends React.Component {
   constructor(props){
@@ -39,6 +41,7 @@ class SignIn extends React.Component {
 
 
   render(){
+    const {googleSignInStart} = this.props;
     return (
       <div className='sign-in'>
         <div className='title'>I already have an account</div>
@@ -49,7 +52,7 @@ class SignIn extends React.Component {
           <FormInput name='password' type='password' value={this.state.password} handleChange={this.handleChange} label='password' required/>
           <div className='buttons'>
             <CustomButton type='submit'>Sign in</CustomButton>
-            <CustomButton onClick={signInWithGoogle} isGoogleSignIn>Sign in with Google</CustomButton>
+            <CustomButton type='button' onClick={googleSignInStart} isGoogleSignIn>Sign in with Google</CustomButton>
           </div>
         </form>
       </div>
@@ -57,4 +60,9 @@ class SignIn extends React.Component {
   }
 }
 
-export default SignIn;
+
+const mapDispatchToProps = dispatch => ({
+  googleSignInStart: () => dispatch(googleSignInStart())
+})
+
+export default connect(null, mapDispatchToProps)(SignIn);
